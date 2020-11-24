@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "G3JRFrontEnd": {
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "G3JRFrontEnd"
+    }
+  },
+  "defaultProject": "G3JRFrontEnd",
+  "cli": {
+    "analytics": "512be744-a3e1-4feb-84bd-40bc7a897e2c"
+  }
 }
