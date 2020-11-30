@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { Usuario } from '../models/usuario.model';
 
 
 import { environment } from 'src/environments/environment';
@@ -17,8 +18,18 @@ const base_url = environment.base_url;
 })
 export class UsuarioService {
 
+  // Modelo parametrado mediante Singleton
+  public usuario: Usuario;
   constructor( private http: HttpClient,
               private router: Router ) { }
+
+  get token (): string{
+    return localStorage.getItem('token') || '';
+  }
+  get uid(): string{
+    return this.usuario.uid || '';
+  }
+
 
   logout(){
     localStorage.removeItem('token');
@@ -27,16 +38,19 @@ export class UsuarioService {
 
   // funcion para proteger rutas si es que no esta logeado
   validarToken(): Observable<boolean>{
-    const token = localStorage.getItem('token') || '';
 
    return this.http.get(`${base_url }/login/renew`,{
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe (
-      tap ( (resp:any) => {
+      map ( (resp:any) => {
+        const {nombre ,email,direccion,telefono,role ,uid} = resp.usuario;
+
+        this.usuario = new Usuario( nombre, email, direccion, telefono, role, uid);
         localStorage.setItem('token', resp.token);
-      }),map( resp => true),
+        return true;
+      }),
       catchError(error => of(false))
     );
   }
@@ -51,6 +65,17 @@ export class UsuarioService {
               );
 
 
+  }
+  actualizarPerfil( data: { email: string, nombre: string, role: string}){
+      data = {
+        ...data,
+        role: this.usuario.role
+      };
+      return this.http.put(`${ base_url }/usuarios/${ this.uid }`, data,{
+          headers: {
+          'x-token': this.token
+        }
+      });
   }
   login (formData: LoginForm){
 

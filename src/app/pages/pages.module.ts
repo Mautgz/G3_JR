@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 // Modelos
 import { SharedModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -12,6 +12,7 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { ProductosComponent } from './productos/productos.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { PagesComponent } from './pages.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 
@@ -20,7 +21,8 @@ import { PagesComponent } from './pages.component';
     ClientesComponent,
     ProductosComponent,
     VentasComponent,
-    PagesComponent
+    PagesComponent,
+    PerfilComponent
   ],
   exports: [
     ClientesComponent,
@@ -32,6 +34,7 @@ import { PagesComponent } from './pages.component';
     // *===== Modulos de terceros ==========*
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
 
     // *===== Modulos propios ==========*
     SharedModule,
