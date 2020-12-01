@@ -7,8 +7,8 @@ export class SidebarService {
 
   menu:any[] = [
     {
-      titulo: 'Principal',
-      icono: 'mdi mdi-gauge',
+      titulo: 'Mantenimiento',
+      icono: 'mdi mdi-folder-lock-open',
       submenu: [
         {titulo:'Cliente', url: ''},
         {titulo:'Producto', url: 'product'},
@@ -16,6 +16,7 @@ export class SidebarService {
 
       ]
     }
+
   ];
 
   constructor() { }

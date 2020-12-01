@@ -2,3 +2,11 @@
 .cursor{
   cursor: pointer;
 }
+.w100{
+  width: 100px;
+}
+.avatar{
+  border: 1px solid grey;
+  border-radius: 100%;
+  width: 25px;
+}
