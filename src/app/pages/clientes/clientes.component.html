@@ -2,7 +2,9 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <input type="text" class="form-control" placeholder="Buscar usuario ..." />
+        <input type="text" class="form-control" placeholder="Buscar usuario ..." 
+        (keyup) ="buscar( txtTermino.value )" 
+        #txtTermino/>
       </div>
     </div>
   </div>
@@ -43,21 +45,35 @@
                 <td class="text-center"><img class="avatar" src="https://www.uic.mx/posgrados/files/2018/05/default-user.png"></td>
                 <td>{{ usuario.email}}</td>
                 <td>{{ usuario.nombre}}</td>
-                <td>{{ usuario.role}}</td>
+                <td>
+                  <select class="form-control"
+                  [(ngModel)]="usuario.role"
+                  (change)="cambiarRole(usuario)">
+                    <option value="ADMIN_ROLE">Admin</option>
+                    <option value="CLIENT_ROLE">Client</option>
+                  </select>
+                </td>
                 <td>{{ usuario.direccion}}</td>
                 <td>{{ usuario.telefono}}</td>
                 <td class="text-nowrap text-center">
                   <a href="#" data-toggle="tooltip" data-original-title="Editar"> <i
                       class="fa fa-pencil text-inverse m-r-10"></i> </a>
-                  <a href="#" data-toggle="tooltip" data-original-title="Borrar"> <i class="fa fa-close text-danger"></i>
+                  <a 
+                    data-toggle="tooltip" 
+                    class="cursor"
+                    data-original-title="Borrar"
+                    (click)= "eliminarUsuario(usuario)"> <i class="fa fa-close text-danger"></i>
                   </a>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <button (click)="cambiarPagina(-5)" class="btn btn-secondary mr-2">Anteriores</button>
-        <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+        <div *ngIf="txtTermino.value.length === 0">
+          <button (click)="cambiarPagina(-5)" class="btn btn-secondary mr-2">Anteriores</button>
+          <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+        </div>
+        
       </div>
     </div>
   </div>
