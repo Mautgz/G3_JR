@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Producto } from '../models/producto.model';
 import { Usuario } from '../models/usuario.model';
 
 const base_url = environment.base_url;
@@ -29,6 +30,11 @@ export class BusquedasService {
         ,user.direccion, user.telefono, user.role, user.uid, '')
     );
   }
+  private transformarProductos(resultados: any[]): Producto[]{
+    return resultados;
+  }
+  
+  
   buscar( tipo: 'usuarios' | 'productos' | 'ventas', 
           termino: string = ''){
     const url = `${ base_url }/todo/coleccion/${ tipo }/${termino}`;
@@ -38,7 +44,10 @@ export class BusquedasService {
                 switch (tipo) {
                   case 'usuarios':
                     return this.transformarUsuarios(resp.resultados);
-                    break;
+                    
+                    case 'productos':
+                    return this.transformarProductos(resp.resultados);
+                    
                 
                   default:
                     return [];
