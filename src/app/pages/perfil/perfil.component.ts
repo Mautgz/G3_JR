@@ -17,6 +17,7 @@ export class PerfilComponent implements OnInit {
   constructor( private fb:  FormBuilder,
                private usuarioService: UsuarioService) {
 
+        console.log(usuarioService.usuario);
         this.usuario = usuarioService.usuario;
 
   }
@@ -27,7 +28,7 @@ export class PerfilComponent implements OnInit {
       nombre: [this.usuario.nombre, Validators.required],
       email: [this.usuario.email, [Validators.required, Validators.email]],
       direccion: [this.usuario.direccion],
-      telefono:[this.usuario.telefono]
+      numero_telefonico:[this.usuario.numero_telefonico]
     })
   }
   actualizarPerfil(){

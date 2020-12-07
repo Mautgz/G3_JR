@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Producto } from '../models/producto.model';
 import { Usuario } from '../models/usuario.model';
+import { Venta } from '../models/venta.model';
 
 const base_url = environment.base_url;
 
@@ -33,6 +34,9 @@ export class BusquedasService {
   private transformarProductos(resultados: any[]): Producto[]{
     return resultados;
   }
+  private transformarVentas(resultados: any[]): Venta[]{
+    return resultados;
+  }
   
   
   buscar( tipo: 'usuarios' | 'productos' | 'ventas', 
@@ -44,8 +48,7 @@ export class BusquedasService {
                 switch (tipo) {
                   case 'usuarios':
                     return this.transformarUsuarios(resp.resultados);
-                    
-                    case 'productos':
+                  case 'productos':
                     return this.transformarProductos(resp.resultados);
                     
                 

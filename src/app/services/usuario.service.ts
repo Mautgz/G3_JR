@@ -74,11 +74,11 @@ export class UsuarioService {
 
   }
   actualizarPerfil( data: { email: string, nombre: string, role: string}){
-      
       data = {
         ...data,
         role: this.usuario.role
       };
+      
       return this.http.put(`${ base_url }/usuarios/${ this.uid }`, data,this.headers);
   }
   login (formData: LoginForm){
@@ -98,8 +98,9 @@ export class UsuarioService {
                 .pipe(
                   delay(100),
                   map( resp => {
+                    console.log(resp.usuarios);
                     const usuarios = resp.usuarios.map( user => new Usuario(user.nombre, user.email
-                      ,user.direccion, user.telefono, user.role, user.uid, ''));
+                      ,user.direccion, user.numero_telefonico, user.role, user.uid, ''));
                     return {
                       total: resp.total,
                       usuarios

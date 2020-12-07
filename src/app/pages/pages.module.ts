@@ -13,6 +13,7 @@ import { ProductosComponent } from './productos/productos.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { PagesComponent } from './pages.component';
 import { PerfilComponent } from './perfil/perfil.component';
+import { VentaComponent } from './ventas/venta.component';
 
 
 
@@ -22,7 +23,8 @@ import { PerfilComponent } from './perfil/perfil.component';
     ProductosComponent,
     VentasComponent,
     PagesComponent,
-    PerfilComponent
+    PerfilComponent,
+    VentaComponent
   ],
   exports: [
     ClientesComponent,

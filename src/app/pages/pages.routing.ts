@@ -8,6 +8,7 @@ import { ProductosComponent } from './productos/productos.component';
 import { VentasComponent } from './ventas/ventas.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { PerfilComponent } from './perfil/perfil.component';
+import { VentaComponent } from './ventas/venta.component';
 
 
 const routes: Routes = [
@@ -18,9 +19,10 @@ const routes: Routes = [
     canActivate:[AuthGuard],
     //rutas hijas
     children:[
-      {path: '', component: ClientesComponent, data: {titulo: 'Cliente'}},
-      {path: 'product', component: ProductosComponent, data: {titulo: 'Producto'}},
-      {path: 'sells', component: VentasComponent, data: {titulo: 'Venta'}},
+      {path: '', component: ClientesComponent, data: {titulo: 'Clientes'}},
+      {path: 'product', component: ProductosComponent, data: {titulo: 'Productos'}},
+      {path: 'sells', component: VentasComponent, data: {titulo: 'Ventas'}},
+      {path: 'sell/:id', component: VentaComponent, data: {titulo: 'Venta'}},
       {path: 'profile', component: PerfilComponent, data: {titulo: 'Perfil de usuario'}}
     ]
   },

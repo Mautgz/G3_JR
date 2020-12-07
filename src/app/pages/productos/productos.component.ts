@@ -44,26 +44,53 @@ export class ProductosComponent implements OnInit {
           )
   }
   guardarCambios(producto: Producto){
-    this.productoService.actualizarProducto(producto.uid, producto.nombre, producto.precio, producto.stock)
+    this.productoService.actualizarProducto(producto.uid, producto.nombre, producto.precio, Math.trunc(producto.stock))
         .subscribe(resp => {
+          this.cargarProducto();
           Swal.fire('Actualizado', producto.nombre, 'success');
         });
   }
   eliminarProducto(producto: Producto){
-    this.productoService.borrarProducto(producto.uid)
-        .subscribe(resp => {
+    Swal.fire({
+      title: '¿Borrar producto?',
+      text: `Esta a punto de borrar el producto ${ producto.nombre}`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Si, borrarlo'
+    }).then((result) => {
+      if (result.value) {
+        this.productoService.borrarProducto(producto.uid)
+        .subscribe(resp=> {
           this.cargarProducto();
-          Swal.fire('Borrado', producto.nombre, 'success');
+          Swal.fire(
+            'Venta borrada',
+            `${ producto.nombre } fue eliminado correctamente`,
+            'success'
+          );
         });
+              
+      }
+    })
+    // this.productoService.borrarProducto(producto.uid)
+    //     .subscribe(resp => {
+    //       this.cargarProducto();
+    //       Swal.fire('Borrado', producto.nombre, 'success');
+
+    //     });
+    
   }
     async abrirSweetAlert(){
     const { value: formValues } = await Swal.fire<any>({
       title: 'Crear producto',
+      icon:'info',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
       html:
-        '<input id="nombre" class="swal2-input" placeholder="Ingrese nombre del producto">' +
-        '<input id="precio" class="swal2-input" placeholder="Ingrese el precio actual">'+
-        '<input id="stock" class="swal2-input" placeholder="Ingrese el stock (sumarizado)">',
+        'Nombre del producto: <input id="nombre" class="swal2-input" placeholder="Ingrese nombre del producto">' +
+        'Precio: <input id="precio" class="swal2-input" placeholder="Ingrese el precio actual">'+
+        'Stock: <input id="stock" class="swal2-input" placeholder="Ingrese el stock (sumarizado)">',
       focusConfirm: false,
+      showCancelButton: true,
       preConfirm: () => {
         return [
           (<HTMLInputElement>document.getElementById('nombre')).value,
@@ -74,7 +101,7 @@ export class ProductosComponent implements OnInit {
     })
 
     if (formValues) {
-      this.productoService.crearProducto(formValues[0], formValues[1], formValues[2])
+      this.productoService.crearProducto(formValues[0], formValues[1],Math.trunc(formValues[2]))
           .subscribe((resp: any) => {
             this.productos.push(resp.producto);
             Swal.fire('Creado', resp.producto.nombre, 'success');

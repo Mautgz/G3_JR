@@ -1,0 +1,83 @@
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Venta</h4>
+                <h6 class="card-subtitle">Actualizar infromacion</h6>
+                <form class="form-horizontal p-t-20"
+                    [formGroup]="ventaForm"
+                    (submit)="guardarVenta()">
+                    <div class="form-group row">
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Cliente*</label>
+                        <div class="col-sm-9">
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <select class="form-control" name="" id=""
+                                            formControlName="usuario">
+
+                                            <option value="">Seleccione cliente</option>
+                                            <option *ngFor="let usuario of usuarios" [value]="usuario.uid">{{ usuario.nombre }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Producto*</label>
+                        <div class="col-sm-9">
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <select class="form-control" name="" id="" formControlName="producto">
+                                            <option value="">Seleccione producto</option>
+                                            <option *ngFor="let producto of productos"
+                                             [value]="producto.uid">{{ producto.nombre}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row animated fadeIn fast" *ngIf="productoSeleccionado">
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Precio del producto*</label>
+                        <div class="col-sm-9">
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" id="precio" disabled class="form-control" [value]="productoSeleccionado.precio">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row animated fadeIn fast">
+                        <label for="exampleInputEmail3" class="col-sm-3 control-label">Cantidad*</label>
+                        <div class="col-sm-9">
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" #cantidad (click)="calcularTotal(productoSeleccionado.precio,cantidad.value)" (keyup)="calcularTotal(productoSeleccionado.precio,cantidad.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="exampleInputuname3" class="col-sm-3 control-label">Total</label>
+                        <div class="col-sm-9">
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" disabled class="form-control" id="exampleInputuname3" placeholder="Total de la venta"  [value]="total"  style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row m-b-0">
+                        <div class="offset-sm-3 col-sm-9">
+                            <button 
+                                type="submit" 
+                                class="btn btn-success waves-effect waves-light"
+                                [disabled]="ventaForm.invalid"> <i class="fa fa-save"></i> Guardar cambios</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

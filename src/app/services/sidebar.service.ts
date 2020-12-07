@@ -10,9 +10,9 @@ export class SidebarService {
       titulo: 'Mantenimiento',
       icono: 'mdi mdi-folder-lock-open',
       submenu: [
-        {titulo:'Cliente', url: ''},
-        {titulo:'Producto', url: 'product'},
-        {titulo: 'Venta', url:'sells'}
+        {titulo:'Clientes', url: ''},
+        {titulo:'Productos', url: 'product'},
+        {titulo: 'Ventas', url:'sells'}
 
       ]
     }
