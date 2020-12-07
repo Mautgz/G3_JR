@@ -31,6 +31,15 @@ export class VentaService {
               )
             );
   }
+  obtenerVentaPorId(id: string){
+    const url = `${ base_url }/ventas/${ id }`;
+    return this.http.get(url, this.headers)
+            .pipe(
+              map(
+                (resp: {ok: boolean, venta: Venta}) => resp.venta
+              )
+            );
+  }
   crearVenta( usuario: string, producto: string, total: number){
     const url = `${ base_url }/ventas`;
     return this.http.post(url, { usuario, producto, total } , this.headers);

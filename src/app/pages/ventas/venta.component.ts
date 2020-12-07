@@ -1,7 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { delay } from 'rxjs/operators';
 
 
 import { Producto } from 'src/app/models/producto.model';
@@ -27,16 +28,24 @@ export class VentaComponent implements OnInit {
   public ventaForm: FormGroup;
   public productos: Producto[]=[];
   public usuarios: Usuario[]=[];
-  public venta: Venta;
   public productoSeleccionado: Producto;
+  public ventaSeleccionada: Venta;
 
   constructor(private fb: FormBuilder,
               private ventaService: VentaService,
               private productoService: ProductoService,
               private usuarioService: UsuarioService,
-              private router: Router) { }
+              private router: Router,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit( ): void {
+
+    this.activatedRoute.params.subscribe(
+      ({ id }) => {
+        this.cargarVenta( id );
+      }
+    )
+    // this.ventaService.obtenerVentaPorId()
 
     this.ventaForm  =this.fb.group({
       usuario: ['', Validators.required],
@@ -50,6 +59,28 @@ export class VentaComponent implements OnInit {
       });
 
     
+  }
+  cargarVenta(id: string){
+    if(id == 'nuevo'){
+      return;
+    }
+    this.ventaService.obtenerVentaPorId( id )
+        .pipe(
+          delay(100)
+        )
+        .subscribe( venta => {
+          if( !venta){
+            return this.router.navigateByUrl(`/gestion/sells`);
+          }
+          console.log(venta);
+          var usuario = venta.usuario._id;
+          var producto = venta.producto._id;
+          var total = venta.total;
+          this.ventaSeleccionada = venta;
+          this.total = total;
+          this.ventaForm.setValue({usuario, producto});
+
+        })
   }
   cargarProductos(){
     this.productoService.cargarProductos()
@@ -72,16 +103,30 @@ export class VentaComponent implements OnInit {
     this.total = this.precio * cantidad;
   }
   guardarVenta(){
-    this.ventaService.crearVenta( this.ventaForm.controls['usuario'].value,this.ventaForm.controls['producto'].value, this.total)
-        .subscribe( (resp: any) => {
-          if( this.total <= 0 ){
-            Swal.fire('Validación', ' el total de la venta no tiene que ser menor o igual a cero.', 'warning' );
-          }else{
-            Swal.fire('Creado', ' Venta creada correctamente', 'success' );
-            this.router.navigateByUrl(`/gestion/sell/${ resp.venta.uid}`)
-          }
-          
-        });
+    if(this.ventaSeleccionada){
+      // actualizar
+      const data = {
+        ...this.ventaForm.value,
+        uid: this.ventaSeleccionada.uid,
+        total: this.total
+      }
+      this.ventaService.actualizarVenta(data)
+          .subscribe (resp => {
+            Swal.fire('Actualizado', ' Venta actualizada correctamente', 'success' );
+          })
+    }else{
+      //crear
+      this.ventaService.crearVenta( this.ventaForm.controls['usuario'].value,this.ventaForm.controls['producto'].value, this.total)
+          .subscribe( (resp: any) => {
+            if( this.total <= 0 ){
+              Swal.fire('Validación', ' el total de la venta no tiene que ser menor o igual a cero.', 'warning' );
+            }else{
+              Swal.fire('Creado', ' Venta creada correctamente', 'success' );
+              this.router.navigateByUrl(`/gestion/sell/${ resp.venta.uid}`);
+            }
+            
+          });
+    }
   }
   
 
