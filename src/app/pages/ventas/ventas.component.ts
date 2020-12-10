@@ -19,6 +19,8 @@ export class VentasComponent implements OnInit {
   public cargando: boolean = true;
   public ventas: Venta[] = [];
   public productos: Producto[] = [];
+  public role: string = localStorage.getItem('role');
+
 
   constructor( private ventaService: VentaService,
               private busquedasService: BusquedasService) { }

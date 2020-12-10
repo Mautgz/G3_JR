@@ -15,12 +15,14 @@ export class ProductosComponent implements OnInit {
 
   public productos: Producto[] = [];
   public cargando: boolean = true;
+  public role: string = localStorage.getItem('role');
 
   constructor( private productoService: ProductoService,
               private busquedasService: BusquedasService) { }
 
   ngOnInit(): void {
     this.cargarProducto();
+    console.log(this.role);
   }
   // Buscar clientes
   buscar (termino: string){

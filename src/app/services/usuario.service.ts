@@ -56,6 +56,7 @@ export class UsuarioService {
 
         this.usuario = new Usuario( nombre, email, direccion, telefono, role, uid);
         localStorage.setItem('token', resp.token);
+        localStorage.setItem('role', this.usuario.role);
         return true;
       }),
       catchError(error => of(false))

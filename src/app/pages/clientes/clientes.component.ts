@@ -16,6 +16,7 @@ export class ClientesComponent implements OnInit {
   public usuariosTemp: Usuario[] = [];
   public desde: number = 0;
   public cargando: boolean = true;
+  public role: string = localStorage.getItem('role');
 
   constructor( private usuarioService: UsuarioService,
               private busquedasService: BusquedasService) { }
